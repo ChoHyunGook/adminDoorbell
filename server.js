@@ -61,13 +61,6 @@ async function startServer() {
     app.use("/profiles", profile)
     //이메일,SMS 보내기
     app.use('/sendService',sendService)
-    //DYNAMO
-    app.post('/start_up',(req,res)=>{
-        api().start_up(req,res)
-    })
-    app.post('/api/aiShelter/update',(req,res)=>{
-        api().updateVersion(req,res)
-    })
 
     app.use(test)
 
