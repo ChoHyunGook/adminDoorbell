@@ -13,7 +13,7 @@ import findInfo from "./app/routes/user/findInfo.js"
 import table from "./app/routes/table/table.js";
 import profile from "./app/routes/user/profile.js"
 import sendService from "./app/routes/send/sendEmailSMS.js"
-import api from "./app/services/api/api.js"
+
 
 import test from './test/router/quit.js'
 import auth from "./app/routes/auth/authHome.js"
