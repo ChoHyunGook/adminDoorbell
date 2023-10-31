@@ -148,7 +148,6 @@ export default function EmailService(){
             const sendInfo = data.sendInfo
             const infoContent = data.infoContent
 
-
             transporter.sendMail({
                 from: `DoorBellSquare`,
                 to: 'danielcho@blaubit.co.kr',
@@ -163,7 +162,7 @@ export default function EmailService(){
                 if (error) {
                     res.status(500).json({message: "발송실패!"})
                 }
-                res.send('이메일이 전송되었습니다. 인증번호 유효시간은 5분입니다.');
+                res.send('최대한 빠르게 검토 후 작성하신 이메일 또는 핸드폰 번호로 연락드리겠습니다.');
             })
             transporter.close()
         },
