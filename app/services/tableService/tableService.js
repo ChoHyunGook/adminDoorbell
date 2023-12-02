@@ -184,7 +184,6 @@ export default function TableService(){
 
         update(req,res){
             try {
-
                 const data = req.body
 
                 Table.findOne({id:data.id},function (err,users){
@@ -198,69 +197,69 @@ export default function TableService(){
                                     res.status(400).send(err)
                                 }else{
 
-                                    connection.scan(userTable,(err,users)=>{
-                                        const userData = users.Items
-
-                                        let user_key;
-                                        const findUser = userData.filter((item)=>{
-                                            if(data.company === item.company && data.id === item.user_id ){
-                                                return item
-                                            }
-                                        })
-                                        findUser.filter((items)=>{
-                                            user_key= items.user_key
-                                        })
-
-                                        if(user_key === undefined){
-                                            console.log('해당하는 유저 정보가 없습니다.')
-                                            res.status(400).send('해당하는 유저 정보가 없습니다.')
-                                        }else{
-                                            const userParams ={
-                                                TableName:AWS_TABLE_USER,
-                                                Key:{
-                                                    "user_key":user_key
-                                                },
-                                                UpdateExpression: "set addr = :addr, #push_name = :user_name, tel = :tel, user_id = :id",
-                                                ExpressionAttributeNames:{
-                                                    '#push_name':'name'
-                                                },
-                                                ExpressionAttributeValues:{
-                                                    ':addr':data.addr.replace(/(\s*)/g, ""),
-                                                    ':user_name':data.name.replace(/(\s*)/g, ""),
-                                                    ':tel':data.tel.replace(/(\s*)/g, ""),
-                                                    ':id':data.id.replace(/(\s*)/g, "")
-                                                }
-                                            }
-
-                                            const deviceParams = {
-                                                TableName:AWS_TABLE_DEVICE,
-                                                Key:{
-                                                    "device_id":data.device_id.replace(/(\s*)/g, ""),
-                                                    "user_key":user_key
-                                                },
-                                                UpdateExpression: "set contract_num = :contract_num, " +
-                                                    "contract_service = :contract_service, service_name = :service_name, " +
-                                                    "service_start = :service_start, service_end = :service_end, start_up = :start_up",
-                                                ExpressionAttributeValues:{
-                                                    ':contract_num':data.contract_num.replace(/(\s*)/g, ""),
-                                                    ':contract_service':data.contract_service.replace(/(\s*)/g, ""),
-                                                    ':service_name':data.service_name.replace(/(\s*)/g, ""),
-                                                    ':service_start':data.service_start.replace(/(\s*)/g, ""),
-                                                    ':service_end':data.service_end.replace(/(\s*)/g, ""),
-                                                    ':start_up':(data.start_up.replace(/(\s*)/g, "") === 'O') ? true:false
-                                                }
-                                            }
-
-                                            connection.update(userParams,(err,usersdata)=>{
-                                                if(err) throw err
-                                                connection.update(deviceParams,(err,devicesData)=>{
-                                                    if(err) throw err
-
-                                                })
-                                            })
-
-                                        }
-                                    })
+                                    // connection.scan(userTable,(err,users)=>{
+                                    //     const userData = users.Items
+                                    //
+                                    //     let user_key;
+                                    //     const findUser = userData.filter((item)=>{
+                                    //         if(data.company === item.company && data.id === item.user_id ){
+                                    //             return item
+                                    //         }
+                                    //     })
+                                    //     findUser.filter((items)=>{
+                                    //         user_key= items.user_key
+                                    //     })
+                                    //
+                                    //     if(user_key === undefined){
+                                    //         console.log('해당하는 유저 정보가 없습니다.')
+                                    //         res.status(400).send('해당하는 유저 정보가 없습니다.')
+                                    //     }else{
+                                    //         const userParams ={
+                                    //             TableName:AWS_TABLE_USER,
+                                    //             Key:{
+                                    //                 "user_key":user_key
+                                    //             },
+                                    //             UpdateExpression: "set addr = :addr, #push_name = :user_name, tel = :tel, user_id = :id",
+                                    //             ExpressionAttributeNames:{
+                                    //                 '#push_name':'name'
+                                    //             },
+                                    //             ExpressionAttributeValues:{
+                                    //                 ':addr':data.addr.replace(/(\s*)/g, ""),
+                                    //                 ':user_name':data.name.replace(/(\s*)/g, ""),
+                                    //                 ':tel':data.tel.replace(/(\s*)/g, ""),
+                                    //                 ':id':data.id.replace(/(\s*)/g, "")
+                                    //             }
+                                    //         }
+                                    //
+                                    //         const deviceParams = {
+                                    //             TableName:AWS_TABLE_DEVICE,
+                                    //             Key:{
+                                    //                 "device_id":data.device_id.replace(/(\s*)/g, ""),
+                                    //                 "user_key":user_key
+                                    //             },
+                                    //             UpdateExpression: "set contract_num = :contract_num, " +
+                                    //                 "contract_service = :contract_service, service_name = :service_name, " +
+                                    //                 "service_start = :service_start, service_end = :service_end, start_up = :start_up",
+                                    //             ExpressionAttributeValues:{
+                                    //                 ':contract_num':data.contract_num.replace(/(\s*)/g, ""),
+                                    //                 ':contract_service':data.contract_service.replace(/(\s*)/g, ""),
+                                    //                 ':service_name':data.service_name.replace(/(\s*)/g, ""),
+                                    //                 ':service_start':data.service_start.replace(/(\s*)/g, ""),
+                                    //                 ':service_end':data.service_end.replace(/(\s*)/g, ""),
+                                    //                 ':start_up':(data.start_up.replace(/(\s*)/g, "") === 'O') ? true:false
+                                    //             }
+                                    //         }
+                                    //
+                                    //         connection.update(userParams,(err,usersdata)=>{
+                                    //             if(err) throw err
+                                    //             connection.update(deviceParams,(err,devicesData)=>{
+                                    //                 if(err) throw err
+                                    //
+                                    //             })
+                                    //         })
+                                    //
+                                    //     }
+                                    // })
 
                                     res.status(200).json({data:board, message:'수정 성공'})
                                 }
@@ -400,7 +399,7 @@ export default function TableService(){
                         company:names['회사명'],
                         contract_num:names['계약번호'],
                         start_up:names['개통'],
-                        device_id:names['기기번호(MAC)'],
+                        device_id:names['기기번호(MAC)'].toLowerCase(),
                         name:names['계약자이름'],
                         communication:names['통신'],
                         id:names['아이디'],
